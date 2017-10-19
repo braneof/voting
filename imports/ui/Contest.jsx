@@ -13,7 +13,9 @@ const Contest = (props) => {
   return (
     <div className="contest">
       {props.contest.text}
-      <SpecificContest choices={props.contest.choices} />
+      <form>
+        <SpecificContest choices={props.contest.choices} />
+      </form>
     </div>
   )
 }
