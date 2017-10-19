@@ -6,9 +6,12 @@ import Contest from './Contest.jsx'
 export default class Ballot extends Component {
   getContests() {
     return [
-      { _id: 1, text: 'Vote yes or no', choices: ['YES', 'NO'] },
-      { _id: 2, text: 'Vote up or down', choices: ['up', 'down'] },
-      { _id: 3, text: 'Vote Bob or Jim', choices: ['Bob', 'Jim'] },
+      { _id: 1, text: 'Rank your choices', 
+      contestType: 'rankedChoice', choices: ['YES', 'NO'] },
+      { _id: 2, text: 'Vote up or down',
+      contestType: 'simpleMajority', choices: ['up', 'down'] },
+      { _id: 3, text: 'Vote for two: Bob or Jim or write-in',
+      contestType: 'pickTwo', choices: ['Bob', 'Jim', '_'] },
     ]
   }
  

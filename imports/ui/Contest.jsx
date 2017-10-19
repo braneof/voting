@@ -1,27 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { RankedChoiceContest, SimpleMajorityContest, PickTwoContest } from './contests'
 
-import Choice from './Choice.jsx'
-
-export default class Contest extends Component {
-  renderChoices() {
-    return this.props.contest.choices.map((choice) => (
-      <Choice key={choice} choice={choice} />
-    ))
-  }
-
-  render() {
-    return (
-      <div className="contest">
-        {this.props.contest.text}
-        <ul>
-          {this.renderChoices()}
-        </ul>
-      </div>
-    )
-  }
+const components = {
+  rankedChoice: RankedChoiceContest,
+  simpleMajority: SimpleMajorityContest,
+  pickTwo: PickTwoContest
 }
- 
+
+const Contest = (props) => {
+  const SpecificContest = components[props.contest.contestType]
+  return (
+    <div className="contest">
+      {props.contest.text}
+      <SpecificContest choices={props.contest.choices} />
+    </div>
+  )
+}
+
+export default Contest
+
 Contest.propTypes = {
   contest: PropTypes.object.isRequired,
 }
