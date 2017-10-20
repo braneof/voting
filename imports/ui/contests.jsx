@@ -20,21 +20,20 @@ export class RankedChoiceContest extends Component {
 }
 
 const SimpleMajorityContest = (props) => {
-  return <BubbleContest choices={props.choices} />
+  return <BubbleContest choices={props.choices} selectionLimit={1} />
 }
 
 const PickTwoContest = (props) => {
-  return <BubbleContest choices={props.choices} />
+  return <BubbleContest choices={props.choices} selectionLimit={2} />
 }
 
 class BubbleContest extends Component {
   constructor(props) {
     super(props);
 
-    this.state = props.choices.reduce( (acc, choice) => {
-      acc[choice] = false;
-      return acc;
-    }, {});
+    this.state = {
+      selections: []
+    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -42,15 +41,28 @@ class BubbleContest extends Component {
   handleInputChange(event) {
     const target = event.target;
     const name = target.name;
-
+    let newSelections;
+    if (target.checked && this.props.selectionLimit === 1) {
+      newSelections = [target.name]
+    }
+    else if (target.checked && this.state.selections.length >= this.props.selectionLimit) {
+      return
+    }
+    else if (!target.checked) {
+      newSelections = this.state.selections.filter( selection => selection !== target.name )
+    }
+    else {
+      newSelections = [...this.state.selections, target.name]
+    }
+    
     this.setState({
-      [name]: target.checked
+      selections: newSelections
     });
   }
 
    renderChoices() {
     return this.props.choices.map((choice) => (
-      <BubbleChoice key={choice} choice={choice} checked={this.state[choice]}
+      <BubbleChoice key={choice} choice={choice} checked={this.state.selections.includes(choice)}
       handleInputChange={this.handleInputChange} />
     ))
   }
