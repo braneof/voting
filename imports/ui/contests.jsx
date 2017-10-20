@@ -4,17 +4,53 @@ import RankedChoice from './RankedChoice.jsx'
 import BubbleChoice from './BubbleChoice.jsx'
 
 export class RankedChoiceContest extends Component {
-  renderChoices() {
+  constructor(props) {
+    super(props);
+
+    this.state = props.choices.reduce( (acc, choice) => {
+      acc[choice] = "";
+      return acc;
+    }, {});
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const name = target.name;
+
+    console.log(this.state)
+    console.log(target.value)
+    var rank = Number(target.value)
+    if (target.value === "") {
+      rank = ""
+    }
+    else if (Number.isInteger(rank)) {
+      let maxRank = Object.keys(this.state).length
+      if (rank > maxRank || rank < 1) {
+        rank = this.state[name]
+      }
+    }
+    else {
+      return
+    }
+    this.setState({
+      [name]: rank
+    });
+  }
+
+   renderChoices() {
     return this.props.choices.map((choice) => (
-      <RankedChoice key={choice} choice={choice} />
+      <RankedChoice key={choice} choice={choice} value={this.state[choice]}
+      handleInputChange={this.handleInputChange} />
     ))
   }
 
   render() {
     return (
-      <ul>
+      <div>
         {this.renderChoices()}
-      </ul>
+      </div>
     )
   }
 }
