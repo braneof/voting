@@ -27,7 +27,7 @@ export class RankedChoiceContest extends Component {
     }
     else if (Number.isInteger(rank)) {
       let maxRank = Object.keys(this.state).length
-      if (rank > maxRank || rank < 1) {
+      if (rank > maxRank || rank < 1 || Object.values(this.state).includes(rank)) {
         rank = this.state[name]
       }
     }
