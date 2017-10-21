@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Checkbox } from 'antd'
 
 export default class BubbleChoice extends Component {
   constructor(props) {
@@ -14,14 +15,10 @@ export default class BubbleChoice extends Component {
 
   render() {
     return (
-      <label>
+      <Checkbox checked={this.props.checked} 
+      name={this.props.choice} onChange={this.handleInputChange}>
         {this.props.choice}
-        <input
-          name={this.props.choice}
-          type="checkbox"
-          checked={this.props.checked}
-          onChange={this.handleInputChange} />
-      </label>
+      </Checkbox>
     )
   }
 }

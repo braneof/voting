@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { InputNumber } from 'antd'
 
 export default class RankedChoice extends Component {
   constructor(props) {
@@ -16,9 +17,8 @@ export default class RankedChoice extends Component {
     return (
       <label>
         {this.props.choice}
-        <input
+        <InputNumber
           name={this.props.choice}
-          type="number"
           value={this.props.value}
           onChange={this.handleInputChange} />
       </label>
