@@ -27,10 +27,10 @@ class Ballot extends Component {
 
 Ballot.propTypes = {
   contests: PropTypes.array.isRequired,
-};
+}
  
 export default withTracker(() => {
   return {
     contests: Contests.find({}).fetch(),
   };
-}, Ballot);
+})(Ballot)
