@@ -14,14 +14,16 @@ export default class RankedChoice extends Component {
 
   render() {
     return (
-      <label>
-        {this.props.choice}
-        <input
-          name={this.props.choice}
-          type="number"
-          value={this.props.value}
-          onChange={this.handleInputChange} />
-      </label>
+      <span>
+        <label>
+          <input
+            name={this.props.choice}
+            type="number"
+            value={this.props.value}
+            onChange={this.handleInputChange} /> {this.props.choice}
+        </label>
+        <br />
+      </span>
     )
   }
 }

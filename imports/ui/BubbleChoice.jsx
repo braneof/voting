@@ -14,14 +14,16 @@ export default class BubbleChoice extends Component {
 
   render() {
     return (
-      <label>
-        {this.props.choice}
-        <input
-          name={this.props.choice}
-          type="checkbox"
-          checked={this.props.checked}
-          onChange={this.handleInputChange} />
-      </label>
+      <span>
+        <label>
+          <input
+            name={this.props.choice}
+            type="checkbox"
+            checked={this.props.checked}
+            onChange={this.handleInputChange} /> {this.props.choice}
+        </label>
+        <br />
+      </span>
     )
   }
 }
