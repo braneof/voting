@@ -9,10 +9,27 @@ const components = {
 }
 
 const Contest = (props) => {
+  let headerText = ""
+  if (props.contest.description != null) {
+    let description = props.contest.description
+    headerText = (
+      <div className="contestHeader">
+        <div className="contestTitle">
+          {description.title}
+        </div>
+        <div className="contestType">
+          {description.type}
+        </div>
+        <div className="contestInstructions">
+          {description.instructions}
+        </div>
+      </div>
+    )
+  }
   const SpecificContest = components[props.contest.contestType]
   return (
     <div className="contest">
-      {props.contest.text}
+      {headerText}
       <form>
         <SpecificContest choices={props.contest.choices} />
       </form>
