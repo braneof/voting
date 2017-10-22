@@ -1,12 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RankedChoiceContest, SimpleMajorityContest, PickTwoContest } from './contests'
-
-const components = {
-  rankedChoice: RankedChoiceContest,
-  simpleMajority: SimpleMajorityContest,
-  pickTwo: PickTwoContest
-}
+import components from '../util/contestMap.jsx'
 
 const Contest = (props) => {
   let headerText = ""
