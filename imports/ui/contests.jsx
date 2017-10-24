@@ -7,11 +7,6 @@ export class RankedChoiceContest extends Component {
   constructor(props) {
     super(props);
 
-    this.state = props.choices.reduce( (acc, choice) => {
-      acc[choice] = "";
-      return acc;
-    }, {});
-
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -19,31 +14,32 @@ export class RankedChoiceContest extends Component {
     const target = event.target;
     const name = target.name;
 
-    console.log(this.state)
+    console.log(this.props.votes)
     console.log(target.value)
     var rank = Number(target.value)
     if (target.value === "") {
       rank = ""
     }
     else if (Number.isInteger(rank)) {
-      let maxRank = Object.keys(this.state).length
-      if (rank > maxRank || rank < 1 || Object.values(this.state).includes(rank)) {
-        rank = this.state[name]
+      let maxRank = Object.keys(this.props.choices).length
+      if (rank > maxRank || rank < 1 || Object.values(this.props.votes).includes(rank)) {
+        rank = this.props.votes[name]
       }
     }
     else {
       return
     }
-    this.setState({
-      [name]: rank
-    });
+
+    this.props.onChange({ ...this.props.votes, [name]: rank })
   }
 
    renderChoices() {
-    return this.props.choices.map((choice) => (
-      <RankedChoice key={choice} choice={choice} value={this.state[choice]}
+    return this.props.choices.map((choice) => { 
+      const val = this.props.votes[choice] ? this.props.votes[choice] : ""
+      return (
+      <RankedChoice key={choice} choice={choice} value={val}
       handleInputChange={this.handleInputChange} />
-    ))
+    )})
   }
 
   render() {
@@ -56,20 +52,18 @@ export class RankedChoiceContest extends Component {
 }
 
 const SimpleMajorityContest = (props) => {
-  return <BubbleContest choices={props.choices} selectionLimit={1} />
+  const votes = props.votes.selections != null ? props.votes : { selections: [] }
+  return <BubbleContest choices={props.choices} selectionLimit={1} votes={votes} onChange={props.onChange} />
 }
 
 const PickTwoContest = (props) => {
-  return <BubbleContest choices={props.choices} selectionLimit={2} />
+  const votes = props.votes.selections != null ? props.votes : { selections: [] }
+  return <BubbleContest choices={props.choices} selectionLimit={2} votes={votes} onChange={props.onChange} />
 }
 
 class BubbleContest extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      selections: []
-    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -81,24 +75,24 @@ class BubbleContest extends Component {
     if (target.checked && this.props.selectionLimit === 1) {
       newSelections = [target.name]
     }
-    else if (target.checked && this.state.selections.length >= this.props.selectionLimit) {
+    else if (target.checked && this.props.votes.selections.length >= this.props.selectionLimit) {
       return
     }
     else if (!target.checked) {
-      newSelections = this.state.selections.filter( selection => selection !== target.name )
+      newSelections = this.props.votes.selections.filter( selection => selection !== target.name )
     }
     else {
-      newSelections = [...this.state.selections, target.name]
+      newSelections = [...this.props.votes.selections, target.name]
     }
     
-    this.setState({
+    this.props.onChange({
       selections: newSelections
     });
   }
 
    renderChoices() {
     return this.props.choices.map((choice) => (
-      <BubbleChoice key={choice} choice={choice} checked={this.state.selections.includes(choice)}
+      <BubbleChoice key={choice} choice={choice} checked={this.props.votes.selections.includes(choice)}
       handleInputChange={this.handleInputChange} />
     ))
   }
@@ -116,10 +110,22 @@ export { SimpleMajorityContest, PickTwoContest }
 
 RankedChoiceContest.propTypes = {
   choices: PropTypes.array.isRequired,
+  votes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 SimpleMajorityContest.propTypes = {
   choices: PropTypes.array.isRequired,
+  votes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 PickTwoContest.propTypes = {
   choices: PropTypes.array.isRequired,
+  votes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
+BubbleContest.propTypes = {
+  choices: PropTypes.array.isRequired,
+  votes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  selectionLimit: PropTypes.number.isRequired,
 }

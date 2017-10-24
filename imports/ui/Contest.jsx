@@ -20,12 +20,16 @@ const Contest = (props) => {
       </div>
     )
   }
+  let handleChange = (newVotes) => {
+    props.onChange(props.contest._id, newVotes)
+  }
+
   const SpecificContest = components[props.contest.contestType]
   return (
     <div className="contest">
       {headerText}
       <form>
-        <SpecificContest choices={props.contest.choices} />
+        <SpecificContest choices={props.contest.choices} votes={props.votes} onChange={handleChange}/>
       </form>
     </div>
   )
@@ -35,4 +39,6 @@ export default Contest
 
 Contest.propTypes = {
   contest: PropTypes.object.isRequired,
+  votes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 }

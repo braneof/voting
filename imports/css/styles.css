@@ -1,0 +1,6 @@
+div.contestChoice {
+  white-space: normal;
+}
+span.contestChoice {
+  white-space: pre-wrap;
+}

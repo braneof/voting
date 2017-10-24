@@ -14,7 +14,7 @@ export default class BubbleChoice extends Component {
 
   render() {
     return (
-      <span>
+      <div className="contestChoice">
         <label>
           <input
             name={this.props.choice}
@@ -23,7 +23,7 @@ export default class BubbleChoice extends Component {
             onChange={this.handleInputChange} /> {this.props.choice}
         </label>
         <br />
-      </span>
+      </div>
     )
   }
 }
